@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#836ef9"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="520" rx="20" fill="#0b0a12"/>
+  <text x="40" y="52" font-size="24" font-weight="700" fill="#ece9f7">How a token X-ray works</text>
+  <text x="40" y="80" font-size="15" fill="#9690b0">~30 Nansen calls per scan · cached 5 min · identical concurrent calls share one request</text>
+
+  <!-- input -->
+  <rect x="40" y="210" width="150" height="90" rx="14" fill="#13111d" stroke="#2a2540"/>
+  <text x="115" y="248" text-anchor="middle" font-size="16" font-weight="600" fill="#ece9f7">Paste token</text>
+  <text x="115" y="272" text-anchor="middle" font-size="13" fill="#9690b0">0x… on Monad</text>
+
+  <!-- nansen column -->
+  <rect x="240" y="110" width="330" height="370" rx="16" fill="#13111d" stroke="#836ef9" stroke-opacity="0.5"/>
+  <text x="405" y="140" text-anchor="middle" font-size="15" font-weight="700" fill="#a594ff">Nansen API</text>
+  <g font-size="13" fill="#ece9f7">
+    <rect x="260" y="156" width="290" height="40" rx="10" fill="#1a1727"/><text x="275" y="181">TGM › Holders <tspan fill="#9690b0">top 40</tspan></text>
+    <rect x="260" y="204" width="290" height="40" rx="10" fill="#1a1727"/><text x="275" y="229">Profiler › First Funder <tspan fill="#9690b0">× 20 wallets</tspan></text>
+    <rect x="260" y="252" width="290" height="40" rx="10" fill="#1a1727"/><text x="275" y="277">Profiler › Counterparties <tspan fill="#9690b0">batch</tspan></text>
+    <rect x="260" y="300" width="290" height="40" rx="10" fill="#1a1727"/><text x="275" y="325">TGM › Flow Intelligence <tspan fill="#9690b0">24h + 7d</tspan></text>
+    <rect x="260" y="348" width="290" height="40" rx="10" fill="#1a1727"/><text x="275" y="373">TGM › PnL Leaders · Buyers/Sellers</text>
+    <rect x="260" y="396" width="290" height="40" rx="10" fill="#1a1727"/><text x="275" y="421">TGM › Token Info · Flows (top 100)</text>
+  </g>
+  <text x="405" y="464" text-anchor="middle" font-size="12" fill="#9690b0">+ Smart Alerts API for monitoring</text>
+
+  <!-- engine -->
+  <rect x="620" y="150" width="230" height="110" rx="14" fill="#13111d" stroke="#2a2540"/>
+  <text x="735" y="185" text-anchor="middle" font-size="16" font-weight="600" fill="#ece9f7">Cluster engine</text>
+  <text x="735" y="210" text-anchor="middle" font-size="12" fill="#9690b0">union-find over shared funders,</text>
+  <text x="735" y="228" text-anchor="middle" font-size="12" fill="#9690b0">funder-is-holder, direct transfers</text>
+
+  <rect x="620" y="290" width="230" height="110" rx="14" fill="#13111d" stroke="#2a2540"/>
+  <text x="735" y="325" text-anchor="middle" font-size="16" font-weight="600" fill="#ece9f7">Risk score 0–100</text>
+  <text x="735" y="350" text-anchor="middle" font-size="12" fill="#9690b0">7 transparent factors,</text>
+  <text x="735" y="368" text-anchor="middle" font-size="12" fill="#9690b0">each with its evidence</text>
+
+  <!-- outputs -->
+  <g font-size="14" font-weight="600">
+    <rect x="900" y="120" width="260" height="58" rx="12" fill="#836ef9" fill-opacity="0.15" stroke="#836ef9" stroke-opacity="0.5"/>
+    <text x="1030" y="155" text-anchor="middle" fill="#a594ff">🫧 Holder map</text>
+    <rect x="900" y="192" width="260" height="58" rx="12" fill="#836ef9" fill-opacity="0.15" stroke="#836ef9" stroke-opacity="0.5"/>
+    <text x="1030" y="227" text-anchor="middle" fill="#a594ff">✦ AI verdict (OpenRouter LLM)</text>
+    <rect x="900" y="264" width="260" height="58" rx="12" fill="#ff5c7a" fill-opacity="0.12" stroke="#ff5c7a" stroke-opacity="0.5"/>
+    <text x="1030" y="299" text-anchor="middle" fill="#ff5c7a">🚨 Risk gauge + factors</text>
+    <rect x="900" y="336" width="260" height="58" rx="12" fill="#ffc857" fill-opacity="0.12" stroke="#ffc857" stroke-opacity="0.5"/>
+    <text x="1030" y="371" text-anchor="middle" fill="#ffc857">🔔 Alert on insider wallets</text>
+    <rect x="900" y="408" width="260" height="58" rx="12" fill="#3ddc97" fill-opacity="0.12" stroke="#3ddc97" stroke-opacity="0.5"/>
+    <text x="1030" y="443" text-anchor="middle" fill="#3ddc97">Buy / Sell on Uniswap (Monad)</text>
+  </g>
+
+  <g stroke="#836ef9" stroke-width="2" fill="none">
+    <path d="M190 255 H236" marker-end="url(#a)"/>
+    <path d="M570 230 H616" marker-end="url(#a)"/>
+    <path d="M570 340 H616" marker-end="url(#a)"/>
+    <path d="M735 260 V286" marker-end="url(#a)"/>
+    <path d="M850 205 H872"/>
+    <path d="M850 345 H872"/>
+    <path d="M872 149 V437"/>
+    <path d="M872 149 H896" marker-end="url(#a)"/>
+    <path d="M872 221 H896" marker-end="url(#a)"/>
+    <path d="M872 293 H896" marker-end="url(#a)"/>
+    <path d="M872 365 H896" marker-end="url(#a)"/>
+    <path d="M872 437 H896" marker-end="url(#a)"/>
+  </g>
+</svg>
