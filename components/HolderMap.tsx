@@ -4,6 +4,7 @@ import { hierarchy, pack } from "d3-hierarchy";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { short, usd } from "@/lib/format";
+import { KeyLink } from "./ui";
 
 type H = {
   address: string;
@@ -63,7 +64,8 @@ export default function HolderMap({ holders, clusters, chain, traced }: { holder
         <div className="grid h-72 place-items-center rounded-xl border border-dashed border-border text-center text-sm text-muted">
           <div>
             No holder data returned by Nansen for this token.
-            <div className="mt-1 text-xs">If the API key is out of credits, holders can&apos;t load — top up and refresh.</div>
+            <div className="mt-1 text-xs">If the Nansen key is out of credits, holders can&apos;t load.</div>
+            <KeyLink />
           </div>
         </div>
       ) : (

@@ -1,4 +1,5 @@
 import "server-only";
+import { nansenKey } from "./keys";
 
 const BASE = "https://api.nansen.ai/api/v1";
 const TTL_MS = 5 * 60 * 1000;
@@ -22,17 +23,19 @@ export async function nansen<T = unknown>(
   endpoint: string,
   body: Record<string, unknown>,
 ): Promise<T> {
-  const key = process.env.NANSEN_API_KEY;
-  if (!key) throw new NansenError("NANSEN_API_KEY is not set", 500, endpoint);
+  const { key } = await nansenKey();
+  if (!key) throw new NansenError("No Nansen API key — add your own under API keys", 401, endpoint);
 
   const cacheKey = endpoint + JSON.stringify(body);
   const hit = cache.get(cacheKey);
   if (hit && Date.now() - hit.at < TTL_MS) return hit.value as T;
-  // Identical concurrent requests (e.g. page render + AI route) share one paid call.
-  const pending = inflight.get(cacheKey);
+  // Identical concurrent requests (e.g. page render + AI route) share one paid call — per key,
+  // so a viewer's own key never waits on a request made with an exhausted one.
+  const flightKey = key.slice(-8) + cacheKey;
+  const pending = inflight.get(flightKey);
   if (pending) return pending as Promise<T>;
-  const p = request<T>(endpoint, body, key, cacheKey).finally(() => inflight.delete(cacheKey));
-  inflight.set(cacheKey, p);
+  const p = request<T>(endpoint, body, key, cacheKey).finally(() => inflight.delete(flightKey));
+  inflight.set(flightKey, p);
   return p;
 }
 
@@ -51,11 +54,17 @@ async function request<T>(endpoint: string, body: Record<string, unknown>, key: 
       msg = j.message ?? j.error?.message ?? j.detail ?? msg;
       if (typeof msg !== "string") msg = JSON.stringify(msg).slice(0, 300);
     } catch {}
-    throw new NansenError(msg, res.status, endpoint);
+    throw new NansenError(friendly(msg, res.status), res.status, endpoint);
   }
   const value = JSON.parse(text) as T;
   cache.set(cacheKey, { at: Date.now(), value });
   return value;
+}
+
+function friendly(msg: string, status: number) {
+  if (status === 403 && /credit/i.test(msg)) return "Out of Nansen credits — add your own key under API keys";
+  if (status === 401) return "Nansen rejected the API key — check it under API keys";
+  return msg;
 }
 
 /** Run a call, returning { data } or { error } so one failing endpoint never breaks a page. */
@@ -72,8 +81,8 @@ export async function safe<T>(
 
 /** Uncached call for write endpoints (Smart Alerts). */
 export async function nansenWrite<T = unknown>(method: "POST" | "GET" | "DELETE" | "PATCH", endpoint: string, body?: unknown): Promise<T> {
-  const key = process.env.NANSEN_API_KEY;
-  if (!key) throw new NansenError("NANSEN_API_KEY is not set", 500, endpoint);
+  const { key } = await nansenKey();
+  if (!key) throw new NansenError("No Nansen API key — add your own under API keys", 401, endpoint);
   const res = await fetch(BASE + endpoint, {
     method,
     headers: { "Content-Type": "application/json", apikey: key },
@@ -88,7 +97,7 @@ export async function nansenWrite<T = unknown>(method: "POST" | "GET" | "DELETE"
       msg = j.message ?? j.detail ?? msg;
       if (typeof msg !== "string") msg = JSON.stringify(msg).slice(0, 300);
     } catch {}
-    throw new NansenError(msg, res.status, endpoint);
+    throw new NansenError(friendly(msg, res.status), res.status, endpoint);
   }
   return (text ? JSON.parse(text) : {}) as T;
 }

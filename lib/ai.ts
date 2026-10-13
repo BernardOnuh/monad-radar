@@ -1,4 +1,5 @@
 import "server-only";
+import { openRouterKey } from "./keys";
 
 const URL = "https://openrouter.ai/api/v1/chat/completions";
 
@@ -25,8 +26,8 @@ export async function chat(opts: {
   json?: boolean;
   maxTokens?: number;
 }): Promise<{ content: string | null; tool_calls?: ToolCall[] }> {
-  const key = process.env.OPENROUTER_API_KEY;
-  if (!key) throw new Error("OPENROUTER_API_KEY is not set");
+  const { key } = await openRouterKey();
+  if (!key) throw new Error("No OpenRouter key — add your own under API keys");
 
   const res = await fetch(URL, {
     method: "POST",
@@ -45,7 +46,12 @@ export async function chat(opts: {
       ...(opts.json ? { response_format: { type: "json_object" } } : {}),
     }),
   });
-  if (!res.ok) throw new Error(`OpenRouter ${res.status}: ${(await res.text()).slice(0, 300)}`);
+  if (!res.ok) {
+    const body = (await res.text()).slice(0, 300);
+    if (res.status === 401) throw new Error("OpenRouter rejected the key — check it under API keys");
+    if (res.status === 402) throw new Error("Out of OpenRouter credits — add your own key under API keys");
+    throw new Error(`OpenRouter ${res.status}: ${body}`);
+  }
   const j = await res.json();
   const msg = j.choices?.[0]?.message ?? {};
   return { content: msg.content ?? null, tool_calls: msg.tool_calls };

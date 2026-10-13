@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { KeyLink } from "./ui";
 
 type Insight = {
   verdict: string;
@@ -55,7 +56,10 @@ export default function InsightCard({ kind, chain, address }: { kind: "market" |
         </button>
       </div>
       {error ? (
-        <p className="text-sm text-down">AI read unavailable: {error}</p>
+        <div>
+          <p className="text-sm text-down">AI read unavailable: {error}</p>
+          {/API keys/.test(error) ? <KeyLink /> : null}
+        </div>
       ) : !data ? (
         <div className="space-y-2">
           <div className="skeleton h-6 w-2/3" />

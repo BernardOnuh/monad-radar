@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useState, type ReactNode } from "react";
+import { KeyLink } from "@/components/ui";
 
 type Trace = { tool: string; args: Record<string, string>; ms: number; ok: boolean };
 type Turn = { q: string; answer?: string; trace?: Trace[]; error?: string };
@@ -83,7 +84,10 @@ export default function AskPage() {
                 </div>
               ) : null}
               {t.error ? (
-                <p className="text-sm text-down">{t.error}</p>
+                <div>
+                  <p className="text-sm text-down">{t.error}</p>
+                  {/API keys/.test(t.error) ? <KeyLink /> : null}
+                </div>
               ) : t.answer != null ? (
                 <div className="prose-radar text-sm leading-relaxed">{md(t.answer)}</div>
               ) : (

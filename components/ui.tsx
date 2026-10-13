@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 export function Stat({ label, value, sub, className = "" }: { label: string; value: ReactNode; sub?: ReactNode; className?: string }) {
@@ -30,6 +31,7 @@ export function Empty({ children, error }: { children: ReactNode; error?: string
     <div className="py-6 text-center text-sm text-muted">
       {children}
       {error ? <div className="mt-1 text-xs text-down/80">{error}</div> : null}
+      {error && /API keys/.test(error) ? <KeyLink /> : null}
     </div>
   );
 }
@@ -46,4 +48,12 @@ export function Skeleton({ rows = 3 }: { rows?: number }) {
 
 export function LabelChip({ children }: { children: ReactNode }) {
   return <span className="rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-xs text-accent-2">{children}</span>;
+}
+
+export function KeyLink() {
+  return (
+    <Link href="/keys" className="mt-3 inline-block rounded-lg bg-accent/15 px-3 py-1.5 text-xs font-medium text-accent-2 hover:bg-accent hover:text-white">
+      🔑 Add your own key →
+    </Link>
+  );
 }
