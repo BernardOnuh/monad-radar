@@ -8,14 +8,14 @@ import { api, parseChain, safe } from "@/lib/nansen";
 export default function Home(props: PageProps<"/">) {
   return (
     <div className="space-y-8">
-      <section className="pt-6 text-center sm:pt-12">
+      <section className="pt-2 text-center sm:pt-12">
         <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-panel px-3 py-1 text-xs text-muted">
           <span className="h-1.5 w-1.5 rounded-full bg-up live-dot" /> Powered by Nansen onchain intelligence
         </div>
-        <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl">
+        <h1 className="mx-auto max-w-3xl text-[2rem] font-bold leading-tight tracking-tight sm:text-5xl">
           Who <span className="text-accent-2">really</span> controls that token?
         </h1>
-        <p className="mx-auto mt-3 max-w-2xl text-muted">
+        <p className="mx-auto mt-3 max-w-2xl text-[15px] text-muted sm:text-base">
           Paste any Monad token. Radar maps its holders, traces who funded them, finds wallets secretly working together, reads who is buying and
           dumping — and tells you in plain English how risky it is.
         </p>
@@ -26,16 +26,18 @@ export default function Home(props: PageProps<"/">) {
         </div>
       </section>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-3 sm:gap-4">
         {[
           ["🫧", "Holder map", "Bubble map of top holders, with linked wallets grouped by shared funders and direct transfers."],
           ["🚨", "Risk score", "Concentration, insider clusters, fresh-wallet bots, exchange deposits, winners exiting, liquidity."],
           ["✦", "AI verdict", "An analyst that reads every Nansen signal and explains what it means — with the numbers."],
         ].map(([i, t, d]) => (
-          <div key={t} className="card p-4">
+          <div key={t} className="card flex gap-3 p-4 sm:block">
             <div className="text-xl">{i}</div>
-            <div className="mt-1 font-semibold">{t}</div>
-            <div className="text-sm text-muted">{d}</div>
+            <div>
+              <div className="font-semibold sm:mt-1">{t}</div>
+              <div className="text-sm text-muted">{d}</div>
+            </div>
           </div>
         ))}
       </div>
@@ -58,7 +60,30 @@ async function Trending({ searchParams }: { searchParams: PageProps<"/">["search
       {rows.length === 0 ? (
         <Empty error={r.error}>No trending tokens returned.</Empty>
       ) : (
-        <div className="overflow-x-auto">
+        <>
+        <div className="divide-y divide-border sm:hidden">
+          {rows.map((t) => {
+            const pc = t.price_change != null ? (Math.abs(t.price_change) <= 5 ? t.price_change * 100 : t.price_change) : null;
+            return (
+              <Link key={t.token_address} href={`/token/${t.token_address}?chain=${chain}`} className="flex items-center gap-3 py-3 active:bg-panel-2">
+                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent/15 text-sm font-bold text-accent-2">
+                  {(t.token_symbol || "?").slice(0, 1)}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-baseline gap-2">
+                    <span className="truncate font-medium">{t.token_symbol}</span>
+                    <span className={`num text-xs ${tone(pc)}`}>{pc != null ? `${pc > 0 ? "+" : ""}${pc.toFixed(1)}%` : ""}</span>
+                  </div>
+                  <div className="num truncate text-xs text-muted">
+                    Vol {usd(t.volume)} · Mcap {usd(t.market_cap_usd)} · Liq {usd(t.liquidity)}
+                  </div>
+                </div>
+                <span className="shrink-0 rounded-lg bg-accent/15 px-2.5 py-1.5 text-xs text-accent-2">X-ray →</span>
+              </Link>
+            );
+          })}
+        </div>
+        <div className="hidden overflow-x-auto sm:block">
           <table className="w-full min-w-[640px] text-sm">
             <thead className="text-left text-xs text-muted">
               <tr>
@@ -94,6 +119,7 @@ async function Trending({ searchParams }: { searchParams: PageProps<"/">["search
             </tbody>
           </table>
         </div>
+        </>
       )}
     </Panel>
   );

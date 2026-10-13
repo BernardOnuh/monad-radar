@@ -29,7 +29,7 @@ export default function FlowBars({ rows, chain }: { rows: NetflowRow[]; chain: s
     return (
       <Link
         href={`/token/${r.token_address}?chain=${chain}`}
-        className="group grid grid-cols-[88px_1fr_76px] items-center gap-3 rounded-lg px-2 py-1.5 hover:bg-panel-2"
+        className="group grid grid-cols-[64px_1fr_72px] sm:grid-cols-[88px_1fr_76px] items-center gap-3 rounded-lg px-2 py-1.5 hover:bg-panel-2"
       >
         <div className="truncate text-sm font-medium group-hover:text-accent-2">{r.token_symbol || "?"}</div>
         <div className="h-5 rounded-md bg-panel-2/70">
@@ -41,7 +41,7 @@ export default function FlowBars({ rows, chain }: { rows: NetflowRow[]; chain: s
   };
 
   return (
-    <section className="card p-5">
+    <section className="card min-w-0 p-4 sm:p-5">
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <div>
           <h2 className="font-semibold">Smart money net flows</h2>

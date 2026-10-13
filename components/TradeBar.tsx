@@ -22,6 +22,7 @@ const NOTE: Record<string, { text: string; cls: string }> = {
   Moderate: { text: "Some warning signs — check the risk factors before trading.", cls: "text-warn" },
   High: { text: "Significant red flags. Trade with caution and small size.", cls: "text-down" },
   Severe: { text: "Severe red flags. Many tokens with this profile get dumped on buyers.", cls: "text-down" },
+  Unknown: { text: "Not enough Nansen data to judge this token. Treat it as unverified.", cls: "text-warn" },
 };
 
 export default function TradeBar({
@@ -43,21 +44,23 @@ export default function TradeBar({
   const native = chain === "solana" ? "SOL" : chain === "monad" ? "MON" : chain === "bnb" ? "BNB" : "ETH";
   return (
     <section className="card flex flex-wrap items-center gap-4 p-4">
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1 basis-full sm:basis-auto">
         <div className="text-sm font-semibold">
           Trade {symbol ?? "this token"} on {chain === "solana" ? "Jupiter" : "Uniswap"} <span className="capitalize text-muted">· {chain}</span>
         </div>
         <div className={`text-xs ${note.cls}`}>
-          {level} risk — {note.text}
+          {level === "Unknown" ? "Unknown risk" : `${level} risk`} — {note.text}
         </div>
       </div>
-      <div className="flex flex-wrap gap-2">
-        <AlertButton chain={chain} token={token} symbol={symbol} wallets={wallets} walletsAreCluster={walletsAreCluster} />
+      <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:flex-wrap">
+        <div className="col-span-2 sm:col-span-1">
+          <AlertButton chain={chain} token={token} symbol={symbol} wallets={wallets} walletsAreCluster={walletsAreCluster} />
+        </div>
         <a
           href={swapUrl(chain, token, "buy")}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-xl bg-up px-5 py-2.5 text-sm font-semibold text-bg hover:brightness-110"
+          className="rounded-xl bg-up px-4 py-2.5 text-center text-sm font-semibold text-bg hover:brightness-110 sm:px-5"
         >
           Buy with {native} ↗
         </a>
@@ -65,7 +68,7 @@ export default function TradeBar({
           href={swapUrl(chain, token, "sell")}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-xl bg-down px-5 py-2.5 text-sm font-semibold text-white hover:brightness-110"
+          className="rounded-xl bg-down px-4 py-2.5 text-center text-sm font-semibold text-white hover:brightness-110 sm:px-5"
         >
           Sell for {native} ↗
         </a>

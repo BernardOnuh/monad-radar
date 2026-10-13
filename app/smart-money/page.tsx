@@ -32,7 +32,7 @@ async function Radar({ searchParams }: { searchParams: PageProps<"/smart-money">
           <div className="mb-1 flex items-center gap-2 text-xs uppercase tracking-wider text-muted">
             <span className="h-2 w-2 rounded-full bg-up live-dot" /> Live · {chain}
           </div>
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <h1 className="text-2xl font-bold leading-tight tracking-tight sm:text-4xl">
             What is smart money doing on <span className="capitalize text-accent-2">{chain}</span>?
           </h1>
         </div>
@@ -60,7 +60,7 @@ async function Radar({ searchParams }: { searchParams: PageProps<"/smart-money">
             <div className="divide-y divide-border">
               {m.trades.slice(0, 14).map((t) => (
                 <div key={t.transaction_hash + t.token_bought_address} className="flex items-center gap-3 py-2 text-sm">
-                  <Link href={`/wallet/${t.trader_address}?chain=${chain}`} className="w-40 shrink-0 truncate text-muted hover:text-accent-2">
+                  <Link href={`/wallet/${t.trader_address}?chain=${chain}`} className="w-24 shrink-0 truncate text-muted hover:text-accent-2 sm:w-40">
                     {t.trader_address_label || short(t.trader_address)}
                   </Link>
                   <div className="min-w-0 flex-1 truncate">

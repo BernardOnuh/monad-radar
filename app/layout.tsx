@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 import Header from "@/components/Header";
@@ -19,6 +19,13 @@ export const metadata: Metadata = {
   description: "Who really controls that Monad token? Holder clusters, insider links, flows and an AI risk verdict — powered by Nansen.",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#0b0a12",
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -29,8 +36,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Suspense fallback={<div className="h-16 border-b border-border" />}>
           <Header />
         </Suspense>
-        <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6">{children}</main>
-        <footer className="mx-auto w-full max-w-7xl px-4 pb-8 pt-4 text-xs text-muted sm:px-6">
+        <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-5 sm:px-6 sm:py-6">{children}</main>
+        <footer className="mx-auto w-full max-w-7xl px-4 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-4 text-xs text-muted sm:px-6 md:pb-8">
           Data: Nansen API (Smart Money, Token God Mode, Profiler) · AI: OpenRouter · Built for Monad Metropolis.
           Not financial advice.
         </footer>

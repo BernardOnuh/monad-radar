@@ -23,7 +23,9 @@ const KIND_COLOR = { holder: "#6b6390", infra: "#2f2a45", exchange: "#3a6ea8" };
 type Node = { name: string; h?: H; children?: Node[]; value?: number };
 
 export default function HolderMap({ holders, clusters, chain, traced }: { holders: H[]; clusters: C[]; chain: string; traced: number }) {
-  const [hover, setHover] = useState<H | null>(null);
+  const [hoverH, setHoverH] = useState<H | null>(null);
+  const [picked, setPicked] = useState<H | null>(null);
+  const hover = hoverH ?? picked;
   const size = 520;
 
   const nodes = useMemo(() => {
@@ -47,7 +49,7 @@ export default function HolderMap({ holders, clusters, chain, traced }: { holder
   const color = (h: H) => (h.cluster ? CLUSTER_COLORS[(h.cluster - 1) % CLUSTER_COLORS.length] : KIND_COLOR[h.kind]);
 
   return (
-    <section className="card p-5">
+    <section className="card min-w-0 p-4 sm:p-5">
       <div className="mb-2 flex flex-wrap items-start gap-3">
         <div>
           <h2 className="font-semibold">Holder map</h2>
@@ -65,9 +67,9 @@ export default function HolderMap({ holders, clusters, chain, traced }: { holder
           </div>
         </div>
       ) : (
-      <div className="grid gap-4 md:grid-cols-[1fr_240px]">
-        <div className="relative">
-          <svg viewBox={`0 0 ${size} ${size}`} className="h-auto w-full">
+      <div className="grid gap-4 lg:grid-cols-[1fr_240px]">
+        <div className="relative mx-auto w-full max-w-[520px]">
+          <svg viewBox={`0 0 ${size} ${size}`} className="h-auto w-full touch-manipulation">
             {nodes.map((n, i) => {
               if (n.depth === 0) return null;
               if (!n.data.h) {
@@ -78,7 +80,17 @@ export default function HolderMap({ holders, clusters, chain, traced }: { holder
               }
               const h = n.data.h;
               return (
-                <Link key={i} href={`/wallet/${h.address}?chain=${chain}`}>
+                <g
+                  key={i}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${h.label || h.address} ${(h.share * 100).toFixed(2)}%`}
+                  onClick={() => setPicked((p) => (p?.address === h.address ? null : h))}
+                  onKeyDown={(e) => e.key === "Enter" && setPicked(h)}
+                  onMouseEnter={() => setHoverH(h)}
+                  onMouseLeave={() => setHoverH(null)}
+                  className="cursor-pointer outline-none"
+                >
                   <circle
                     cx={n.x}
                     cy={n.y}
@@ -86,21 +98,20 @@ export default function HolderMap({ holders, clusters, chain, traced }: { holder
                     fill={color(h)}
                     fillOpacity={hover && hover.address !== h.address ? 0.45 : 0.9}
                     stroke={hover?.address === h.address ? "#fff" : "none"}
-                    onMouseEnter={() => setHover(h)}
-                    onMouseLeave={() => setHover(null)}
-                    className="cursor-pointer transition-[fill-opacity]"
+                    strokeWidth={2}
+                    className="transition-[fill-opacity]"
                   />
                   {n.r > 22 ? (
                     <text x={n.x} y={n.y + 4} textAnchor="middle" fontSize={Math.min(13, n.r / 3)} fill="#fff" pointerEvents="none">
                       {(h.share * 100).toFixed(1)}%
                     </text>
                   ) : null}
-                </Link>
+                </g>
               );
             })}
           </svg>
         </div>
-        <div className="space-y-3 text-sm">
+        <div className="grid gap-3 text-sm sm:grid-cols-2 lg:block lg:space-y-3">
           <div className="min-h-28 rounded-xl border border-border bg-panel-2/60 p-3">
             {hover ? (
               <>
@@ -112,9 +123,15 @@ export default function HolderMap({ holders, clusters, chain, traced }: { holder
                 <div className="text-xs text-muted">7d balance Δ: {hover.change_7d?.toLocaleString?.() ?? "—"}</div>
                 {hover.funderName ? <div className="text-xs text-muted">Funded by: {hover.funderName}</div> : null}
                 {hover.cluster ? <div className="mt-1 text-xs" style={{ color: color(hover) }}>Cluster #{hover.cluster}</div> : null}
+                <Link
+                  href={`/wallet/${hover.address}?chain=${chain}`}
+                  className="mt-2 inline-block rounded-lg bg-accent/15 px-2.5 py-1 text-xs text-accent-2 hover:bg-accent hover:text-white"
+                >
+                  X-ray this wallet →
+                </Link>
               </>
             ) : (
-              <span className="text-xs text-muted">Hover a bubble for details · click to X-ray the wallet</span>
+              <span className="text-xs text-muted">Tap or hover a bubble for details</span>
             )}
           </div>
           <div className="space-y-1 text-xs">

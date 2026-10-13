@@ -26,14 +26,14 @@ export default function CohortFlows({ d1, d7 }: { d1: FlowIntel | null; d7: Flow
   );
 
   return (
-    <section className="card p-5">
+    <section className="card min-w-0 p-4 sm:p-5">
       <h2 className="font-semibold">Who is moving it?</h2>
       <p className="mb-4 text-xs text-muted">Nansen Token God Mode › Flow Intelligence · net flow by wallet cohort</p>
       {!d1 && !d7 ? (
         <p className="py-6 text-center text-sm text-muted">Flow intelligence not available for this token/chain.</p>
       ) : (
         <div className="space-y-3">
-          <div className="grid grid-cols-[150px_1fr_1fr] gap-3 text-xs text-muted">
+          <div className="grid grid-cols-[minmax(0,110px)_1fr_1fr] sm:grid-cols-[150px_1fr_1fr] gap-3 text-xs text-muted">
             <span />
             <span className="text-center">24h</span>
             <span className="text-center">7d</span>
@@ -42,9 +42,9 @@ export default function CohortFlows({ d1, d7 }: { d1: FlowIntel | null; d7: Flow
             const a = get(d1, k, "net_flow_usd");
             const b = get(d7, k, "net_flow_usd");
             return (
-              <div key={k} className="grid grid-cols-[150px_1fr_1fr] items-center gap-3">
-                <div className="text-sm">
-                  <span className="mr-1.5">{icon}</span>
+              <div key={k} className="grid grid-cols-[minmax(0,110px)_1fr_1fr] sm:grid-cols-[150px_1fr_1fr] items-center gap-3">
+                <div className="min-w-0 text-xs sm:text-sm">
+                  <span className="mr-1 sm:mr-1.5">{icon}</span>
                   {label}
                   <span className="ml-1 text-xs text-muted">({get(d7, k, "wallet_count") || get(d1, k, "wallet_count")})</span>
                 </div>

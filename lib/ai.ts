@@ -70,7 +70,7 @@ export async function insight(kind: "token" | "wallet" | "market" | "xray", data
   const prompt =
     kind === "xray"
       ? `This is a token safety X-ray. Explain to a retail buyer who really controls this token and how risky it is.
-Use verdict = one of "Low risk" | "Moderate risk" | "High risk" | "Severe risk" (consistent with risk_score, but you may move one level if the evidence clearly warrants it).
+Use verdict = one of "Low risk" | "Moderate risk" | "High risk" | "Severe risk" | "Unknown risk" (use "Unknown risk" when risk_level is Unknown or holder data is missing; otherwise stay consistent with risk_score, but you may move one level if the evidence clearly warrants it).
 Headline: the single most important finding. Bullets: concentration & connected-wallet clusters (cite % of supply and why they are linked), who is buying vs selling (cohorts, exchanges, fresh wallets), whether profitable traders are exiting, liquidity. Watch: concrete red/green flags to monitor.`
       : kind === "wallet"
       ? "Profile this wallet: what kind of trader is it, how good is it, what is it doing now, who is it connected to? Use verdict to describe its current stance (accumulating=Bullish, exiting=Bearish)."

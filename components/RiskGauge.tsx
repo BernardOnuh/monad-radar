@@ -7,7 +7,7 @@ export default function RiskGauge({ score, level, factors }: { score: number; le
   const R = 64;
   const len = Math.PI * R;
   return (
-    <section className="card p-5">
+    <section className="card min-w-0 p-4 sm:p-5">
       <h2 className="font-semibold">Risk score</h2>
       <p className="mb-2 text-xs text-muted">Computed from Nansen holders, wallet links, cohort flows, PnL and liquidity</p>
       <div className="flex flex-col items-center">
@@ -22,10 +22,10 @@ export default function RiskGauge({ score, level, factors }: { score: number; le
             strokeDasharray={`${(score / 100) * len} ${len}`}
           />
           <text x={80} y={72} textAnchor="middle" fontSize={30} fontWeight={700} fill="#ece9f7">
-            {score}
+            {level === "Unknown" ? "?" : score}
           </text>
           <text x={80} y={88} textAnchor="middle" fontSize={10} fill={c}>
-            {level.toUpperCase()} RISK
+            {level === "Unknown" ? "NOT ENOUGH DATA" : `${level.toUpperCase()} RISK`}
           </text>
         </svg>
       </div>

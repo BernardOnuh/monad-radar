@@ -66,15 +66,19 @@ export default function AlertButton({
   }
 
   return (
-    <div className="relative">
+    <div className="relative w-full sm:w-auto">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="rounded-xl border border-accent/50 bg-accent/15 px-4 py-2.5 text-sm font-semibold text-accent-2 hover:bg-accent hover:text-white"
+        className="w-full rounded-xl border border-accent/50 bg-accent/15 px-4 py-2.5 text-sm font-semibold text-accent-2 hover:bg-accent hover:text-white sm:w-auto"
       >
         🔔 Set alert
       </button>
       {open ? (
-        <div className="card absolute right-0 top-12 z-30 w-[min(92vw,380px)] space-y-3 p-4 shadow-2xl shadow-black/50">
+        <div className="fixed inset-0 z-40 bg-black/60 sm:hidden" onClick={() => setOpen(false)} aria-hidden="true" />
+      ) : null}
+      {open ? (
+        <div className="card fixed inset-x-0 bottom-0 z-50 max-h-[85vh] space-y-3 overflow-y-auto rounded-b-none p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-2xl shadow-black/50 sm:absolute sm:inset-x-auto sm:bottom-auto sm:right-0 sm:top-12 sm:max-h-none sm:w-[380px] sm:rounded-b-2xl sm:pb-4">
+          <div className="mx-auto -mt-1 mb-1 h-1 w-10 rounded-full bg-border sm:hidden" />
           <div className="flex items-center">
             <div className="font-semibold">Alert me about {symbol ?? "this token"}</div>
             <button onClick={() => setOpen(false)} className="ml-auto text-muted hover:text-fg" aria-label="Close">
@@ -106,7 +110,8 @@ export default function AlertButton({
               min={0}
               value={minUsd}
               onChange={(e) => setMinUsd(Number(e.target.value))}
-              className="mt-1 w-full rounded-lg border border-border bg-panel-2 px-2 py-1.5 text-sm text-fg outline-none"
+              inputMode="numeric"
+              className="mt-1 w-full rounded-lg border border-border bg-panel-2 px-2 py-2 text-base text-fg outline-none sm:py-1.5 sm:text-sm"
             />
           </label>
 
@@ -117,7 +122,7 @@ export default function AlertButton({
                 <button
                   key={t}
                   onClick={() => setChType(t)}
-                  className={`rounded-md px-2.5 py-1 text-xs capitalize ${chType === t ? "bg-accent text-white" : "bg-panel-2 text-muted"}`}
+                  className={`flex-1 rounded-md px-2.5 py-1.5 text-xs capitalize sm:flex-none sm:py-1 ${chType === t ? "bg-accent text-white" : "bg-panel-2 text-muted"}`}
                 >
                   {t}
                 </button>
@@ -127,7 +132,9 @@ export default function AlertButton({
               value={chValue}
               onChange={(e) => setChValue(e.target.value)}
               placeholder={chType === "telegram" ? "Telegram chat ID (e.g. 123456789 or -100…)" : "https://… webhook URL"}
-              className="w-full rounded-lg border border-border bg-panel-2 px-2 py-1.5 text-sm outline-none"
+              autoCapitalize="off"
+              autoCorrect="off"
+              className="w-full rounded-lg border border-border bg-panel-2 px-2 py-2 text-base outline-none sm:py-1.5 sm:text-sm"
             />
             {chType === "telegram" ? (
               <p className="mt-1 text-[11px] text-muted">Delivered by Nansen&apos;s alert bot. Get your chat ID from @userinfobot.</p>
@@ -137,7 +144,7 @@ export default function AlertButton({
           <button
             onClick={save}
             disabled={state.status === "saving" || !chValue.trim()}
-            className="w-full rounded-xl bg-accent py-2 text-sm font-semibold text-white disabled:opacity-50"
+            className="w-full rounded-xl bg-accent py-3 text-sm font-semibold text-white disabled:opacity-50 sm:py-2"
           >
             {state.status === "saving" ? "Creating…" : "Create alert"}
           </button>

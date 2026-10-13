@@ -34,7 +34,7 @@ async function Wallet({
       <div>
         <div className="text-xs uppercase tracking-wider text-muted">Wallet X-ray · {chain}</div>
         <h1 className="font-mono text-2xl font-bold tracking-tight sm:text-3xl">{short(address)}</h1>
-        <a href={`${EXPLORERS[chain]}/address/${address}`} target="_blank" className="font-mono text-xs text-muted hover:text-accent-2">
+        <a href={`${EXPLORERS[chain]}/address/${address}`} target="_blank" className="break-all font-mono text-xs text-muted hover:text-accent-2">
           {address} ↗
         </a>
         <div className="mt-3 flex flex-wrap gap-1.5">
@@ -46,7 +46,7 @@ async function Wallet({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-5 [&>*:last-child]:col-span-2 lg:[&>*:last-child]:col-span-1">
         <Stat label="Portfolio" value={usd(total)} sub={`${w.balances.length} tokens`} />
         <Stat label="Realized PnL · 90d" value={usd(w.pnl?.realized_pnl_usd, true)} className={tone(w.pnl?.realized_pnl_usd)} sub={w.pnl ? pct(w.pnl.realized_pnl_percent) : undefined} />
         <Stat label="Win rate" value={w.pnl?.win_rate != null ? `${Math.round(w.pnl.win_rate * (w.pnl.win_rate <= 1 ? 100 : 1))}%` : "—"} />

@@ -27,7 +27,7 @@ function Scanning() {
     "Scoring risk",
   ];
   return (
-    <div className="card mx-auto mt-10 max-w-xl p-6">
+    <div className="card mx-auto mt-4 max-w-xl p-5 sm:mt-10 sm:p-6">
       <div className="mb-4 flex items-center gap-3">
         <span className="relative grid h-9 w-9 place-items-center rounded-full bg-accent/20">
           <span className="h-3 w-3 rounded-full bg-accent live-dot" />
@@ -78,14 +78,14 @@ async function Token({
         )}
         <div className="min-w-0">
           <div className="text-xs uppercase tracking-wider text-muted">Token X-ray · {chain}</div>
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className="text-2xl font-bold leading-tight tracking-tight sm:text-3xl">
             {info?.name ?? short(address)} <span className="text-muted">{info?.symbol}</span>
           </h1>
           <a href={`${EXPLORERS[chain]}/token/${address}`} target="_blank" className="break-all font-mono text-xs text-muted hover:text-accent-2">
             {address} ↗
           </a>
         </div>
-        <div className="ml-auto flex flex-wrap gap-2">
+        <div className="flex w-full flex-wrap gap-2 sm:ml-auto sm:w-auto">
           {info?.token_details?.website ? (
             <a href={info.token_details.website} target="_blank">
               <LabelChip>Website ↗</LabelChip>
@@ -100,7 +100,7 @@ async function Token({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-5 [&>*:last-child]:col-span-2 lg:[&>*:last-child]:col-span-1">
         <Stat label="Market cap" value={usd(info?.token_details?.market_cap_usd)} sub={`FDV ${usd(info?.token_details?.fdv_usd)}`} />
         <Stat label="24h volume" value={usd(sm?.volume_total_usd)} sub={buyShare != null ? `${(buyShare * 100).toFixed(0)}% buys` : undefined} />
         <Stat label="Liquidity" value={usd(sm?.liquidity_usd)} />

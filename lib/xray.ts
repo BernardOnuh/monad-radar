@@ -242,7 +242,8 @@ export async function xray(chain: Chain, token: string) {
   });
 
   const score = Math.min(100, factors.reduce((s, f) => s + f.points, 0));
-  const level = score >= 75 ? "Severe" : score >= 50 ? "High" : score >= 25 ? "Moderate" : "Low";
+  // Without holder data the score would read as "safe" — report Unknown instead.
+  const level = real.length === 0 ? "Unknown" : score >= 75 ? "Severe" : score >= 50 ? "High" : score >= 25 ? "Moderate" : "Low";
 
   return {
     chain,

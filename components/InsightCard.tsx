@@ -19,6 +19,7 @@ const VERDICT_STYLE: Record<string, string> = {
   "Moderate risk": "bg-warn/15 text-warn border-warn/30",
   "High risk": "bg-down/15 text-down border-down/30",
   "Severe risk": "bg-down/25 text-down border-down/50",
+  "Unknown risk": "bg-warn/10 text-warn border-warn/30",
 };
 
 export default function InsightCard({ kind, chain, address }: { kind: "market" | "token" | "wallet" | "xray"; chain: string; address?: string }) {
@@ -45,7 +46,7 @@ export default function InsightCard({ kind, chain, address }: { kind: "market" |
   }, [kind, chain, address, nonce]);
 
   return (
-    <section className="card relative overflow-hidden p-5">
+    <section className="card relative min-w-0 overflow-hidden p-4 sm:p-5">
       <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/20 blur-3xl" />
       <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-wider text-muted">
         <span className="text-accent-2">✦</span> Radar AI read

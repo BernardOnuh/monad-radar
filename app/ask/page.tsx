@@ -70,7 +70,7 @@ export default function AskPage() {
             <div className="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm bg-accent px-4 py-2 text-sm text-white">{t.q}</div>
             <div className="card p-4">
               {t.trace?.length ? (
-                <div className="mb-3 space-y-1">
+                <div className="mb-3 space-y-1 overflow-x-auto">
                   {t.trace.map((x, j) => (
                     <div key={j} className="flex flex-wrap items-center gap-2 font-mono text-xs">
                       <span className={x.ok ? "text-up" : "text-down"}>{x.ok ? "✓" : "✗"}</span>
@@ -103,13 +103,13 @@ export default function AskPage() {
           e.preventDefault();
           ask(q);
         }}
-        className="sticky bottom-4 flex gap-2 rounded-2xl border border-border bg-panel/95 p-2 backdrop-blur"
+        className="sticky bottom-[calc(4.5rem+env(safe-area-inset-bottom))] flex gap-2 rounded-2xl border border-border bg-panel/95 p-2 backdrop-blur md:bottom-4"
       >
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Ask about tokens, wallets or smart money flows…"
-          className="flex-1 bg-transparent px-2 text-sm outline-none placeholder:text-muted"
+          className="min-w-0 flex-1 bg-transparent px-2 text-base outline-none placeholder:text-muted md:text-sm"
         />
         <button disabled={busy} className="rounded-xl bg-accent px-4 py-2 text-sm font-medium text-white disabled:opacity-50">
           {busy ? "Thinking…" : "Ask"}

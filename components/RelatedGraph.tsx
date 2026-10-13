@@ -19,7 +19,7 @@ export default function RelatedGraph({ center, related, chain }: { center: strin
   const R = 115;
 
   return (
-    <section className="card p-5">
+    <section className="card min-w-0 p-4 sm:p-5">
       <h2 className="font-semibold">Wallet network</h2>
       <p className="mb-2 text-xs text-muted">Nansen Profiler › Related Wallets · click a node to X-ray it</p>
       {nodes.length === 0 ? (
