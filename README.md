@@ -132,6 +132,16 @@ The images above are illustrations. **Demo video:** [`docs/monad-radar-demo.mp4`
 
 ---
 
+## For judges and testers: use your own key
+
+Each token X-ray uses about 30 Nansen calls, so the shared demo key can run out of credits during judging. If a panel says **"Out of Nansen credits"**:
+
+1. Click the **🔑 key icon** in the header (or the **"Add your own key →"** button next to the error), which opens `/keys`.
+2. Paste your **Nansen API key**. It's checked against Nansen's free `/account` endpoint and your remaining credits are shown. Optionally add an **OpenRouter key** for the AI verdicts.
+3. Every request from your browser now uses your key. Remove it at any time to fall back to the demo key.
+
+Keys are stored only in an **httpOnly cookie in your browser** (7 days), sent to Nansen and OpenRouter through the app's server for your requests, and never written to disk or logged. Alerts you create while using your own key are created on your Nansen account.
+
 ## Run locally
 
 ```bash
@@ -158,11 +168,13 @@ OPENROUTER_MODEL=anthropic/claude-sonnet-4.5     # any OpenRouter model with too
 lib/nansen.ts        Nansen client: typed endpoints, cache, in-flight dedupe
 lib/xray.ts          X-ray engine: clustering, risk factors, AI payload
 lib/ai.ts            OpenRouter chat + grounded JSON verdicts
+lib/keys.ts          Per-viewer key resolution (cookie → env)
 app/page.tsx         Home: scan box + trending Monad tokens
 app/token/[address]  Token X-ray
 app/wallet/[address] Wallet X-ray
 app/ask              Ask Radar agent
 app/alerts           Manage Nansen Smart Alerts
+app/keys             Bring-your-own Nansen / OpenRouter key
 app/api/*            insight · ask · alerts routes
 ```
 

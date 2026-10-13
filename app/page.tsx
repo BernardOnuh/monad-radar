@@ -23,6 +23,12 @@ export default function Home(props: PageProps<"/">) {
           <Suspense>
             <ScanBox />
           </Suspense>
+          <p className="mt-3 text-xs text-muted">
+            Judging or testing?{" "}
+            <Link href="/keys" className="text-accent-2 hover:underline">
+              Use your own Nansen key →
+            </Link>
+          </p>
         </div>
       </section>
 

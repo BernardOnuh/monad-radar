@@ -24,6 +24,15 @@ const Icon = {
       strokeLinejoin="round"
     />
   ),
+  key: (
+    <path
+      d="M14.5 4a5.5 5.5 0 0 0-5.2 7.3L3 17.6V21h3.4v-2h2v-2h2l1.3-1.3A5.5 5.5 0 1 0 14.5 4zM16 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinejoin="round"
+    />
+  ),
   search: <path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />,
 };
 
@@ -109,6 +118,16 @@ export default function Header() {
           <div className="ml-auto hidden max-w-md flex-1 md:flex">{searchForm}</div>
 
           <div className="ml-auto flex items-center gap-2 md:ml-0">
+            <Link
+              href={`/keys?chain=${chain}`}
+              title="Use your own API keys"
+              aria-label="API keys"
+              className={`grid h-9 w-9 place-items-center rounded-xl border border-border ${pathname === "/keys" ? "bg-accent text-white" : "bg-panel text-muted hover:text-fg"}`}
+            >
+              <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]">
+                {Icon.key}
+              </svg>
+            </Link>
             <button
               onClick={() => setSearchOpen((o) => !o)}
               className={`grid h-9 w-9 place-items-center rounded-xl border border-border md:hidden ${searchOpen ? "bg-accent text-white" : "bg-panel text-muted"}`}
