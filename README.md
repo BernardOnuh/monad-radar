@@ -8,6 +8,10 @@
   <sub>Built for <b>Monad Metropolis</b> · <b>Best use of Nansen</b></sub>
 </p>
 
+<p align="center">
+  <a href="docs/monad-radar-demo.mp4"><b>▶ Watch the 2-minute demo video</b></a>
+</p>
+
 ---
 
 ## The problem
@@ -124,7 +128,7 @@ Every core feature is built on Nansen data; nothing is decorative. All calls go 
   <img src="docs/screenshots/xray.png" width="100%" />
 -->
 
-The images above are illustrations. See the demo video for the live app running on Monad data.
+The images above are illustrations. **Demo video:** [`docs/monad-radar-demo.mp4`](docs/monad-radar-demo.mp4) (1:52, narrated; X-ray scenes use a fictional token with illustrative data).
 
 ---
 
